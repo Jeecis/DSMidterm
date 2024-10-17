@@ -118,6 +118,23 @@ Triangle largestAreaTriangle(std::vector<Triangle> triangles) {
     return maxTriangle;
 }
 
+Triangle largestEquilateralAreaTriangle(std::vector<Triangle> triangles) {
+    if (triangles.size() == 0) {
+        std::cout << "Error: Empty triangle!" << std::endl;
+    }
+    Triangle maxTriangle = Triangle(triangles[0]);
+    for (unsigned int i = 1; i < triangles.size(); i++) {
+        Triangle currentTriangle = Triangle(triangles[i]);
+        if (currentTriangle.isEquilateral() == false) {
+            continue;
+        }
+        if (currentTriangle.getArea() > maxTriangle.getArea()) {
+            maxTriangle = currentTriangle;
+        }
+    }
+    return maxTriangle;
+}
+
 int main()
 {
 
@@ -129,11 +146,20 @@ int main()
     std::vector<Triangle> dirtyTriangles =readCSV(dirtyCSV);
 
     Triangle maxTriangleTXT = largestAreaTriangle(txtTriangles);
+    Triangle maxEquilateralTXT = largestEquilateralAreaTriangle(txtTriangles);
+
     Triangle maxTriangleCSV = largestAreaTriangle(csvTriangles);
+    Triangle maxEquilateralCSV = largestEquilateralAreaTriangle(csvTriangles);
+
     Triangle maxTriangleDirty = largestAreaTriangle(dirtyTriangles);
+    Triangle maxEquilateralDirty = largestEquilateralAreaTriangle(dirtyTriangles);
 
     std::cout <<"Max triangle from txt file " << maxTriangleTXT.getArea() << std::endl;
     std::cout <<"Max triangle from csv file " << maxTriangleCSV.getArea() << std::endl;
     std::cout <<"Max triangle from dirty csv file " << maxTriangleDirty.getArea() << std::endl;
+
+    std::cout <<"Max equilateral triangle from txt file " << maxEquilateralTXT.getArea() << std::endl;
+    std::cout <<"Max equilateral triangle from csv file " << maxEquilateralCSV.getArea() << std::endl;
+    std::cout <<"Max equilateral triangle from dirty csv file " << maxEquilateralDirty.getArea() << std::endl;
     return 0;
 }
